@@ -6,7 +6,7 @@
 
 ## Strings:
 
-**cmd:** SET, gGETet
+**cmd:** SET, GET
 ```bash
 > set mykey somevalue
 OK
@@ -159,3 +159,26 @@ OK
 2) "2"
 3) "3"
 ```
+
+## Blocking operations on lists
+**cmd:** BRPOP, BLPOP
+-  **BRPOP** and **BLPOP** which are versions of RPOP and LPOP able to block if the list is empty: they'll return to the caller only when a new element is added to the list, or when a user-specified timeout is reached.
+```bash
+BRPOP key [key ...] timeout
+
+> rpush mylist 1 2 3
+(integer) 3
+> brpop mylist 5
+1) "mylist"
+2) "3"
+> brpop mylist 5
+1) "mylist"
+2) "2"
+> brpop mylist 5
+1) "mylist"
+2) "1"
+> brpop mylist 5
+(nil)
+(5.01s)
+```
+It means: "wait for elements in the list tasks, but return if after 5 seconds no element is available".
