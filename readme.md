@@ -325,8 +325,96 @@ Redis Sets are unordered collections of strings
 (integer) 47
 ```
 
+## Sorted sets
+Sorted sets are a data type which is similar to a mix between a Set and a Hash. <br>
+**cmd:** ZADD, ZRANGE, ZREVRANGE
+- **ZADD** is similar to SADD, but takes one additional argument which is the score
+- **ZRANGE** is like LRANGE
+- **ZREVRANGE** is the reverse of ZRANGE
+```bash
+> zadd hackers 1940 "Alan Kay"
+(integer) 1
+> zadd hackers 1957 "Sophie Wilson"
+(integer) 1
+> zadd hackers 1953 "Richard Stallman"
+(integer) 1
+> zadd hackers 1949 "Anita Borg"
+(integer) 1
+> zadd hackers 1965 "Yukihiro Matsumoto"
+(integer) 1
+> zadd hackers 1914 "Hedy Lamarr"
+(integer) 1
+> zadd hackers 1916 "Claude Shannon"
+(integer) 1
+> zadd hackers 1969 "Linus Torvalds"
+(integer) 1
+> zadd hackers 1912 "Alan Turing"
+(integer) 1
 
+> zrange hackers 0 -1
+1) "Alan Turing"
+2) "Hedy Lamarr"
+3) "Claude Shannon"
+4) "Alan Kay"
+5) "Anita Borg"
+6) "Richard Stallman"
+7) "Sophie Wilson"
+8) "Yukihiro Matsumoto"
+9) "Linus Torvalds"
 
+> zrange hackers 0 -1
+1) "Alan Turing"
+2) "Hedy Lamarr"
+3) "Claude Shannon"
+4) "Alan Kay"
+5) "Anita Borg"
+6) "Richard Stallman"
+7) "Sophie Wilson"
+8) "Yukihiro Matsumoto"
+9) "Linus Torvalds"
+```
+It is possible to return scores as well, using the WITHSCORES argument:
+```bash
+> zrange hackers 0 -1 withscores
+1) "Alan Turing"
+2) "1912"
+3) "Hedy Lamarr"
+4) "1914"
+5) "Claude Shannon"
+6) "1916"
+7) "Alan Kay"
+8) "1940"
+9) "Anita Borg"
+10) "1949"
+11) "Richard Stallman"
+12) "1953"
+13) "Sophie Wilson"
+14) "1957"
+15) "Yukihiro Matsumoto"
+16) "1965"
+17) "Linus Torvalds"
+18) "1969"
+```
+
+## Operating on ranges
+**cmd:** ZRANGEBYSCORE, ZREMRANGEBYSCORE, ZRANK, ZREVRANK
+- **ZRANGEBYSCORE** returns all the elements with a score between two values
+- **ZREMRANGEBYSCORE** removes all the hackers born between two values
+- **ZRANK** gives the position of an element in the set of the ordered elements
+```bash
+> zrangebyscore hackers -inf 1950
+1) "Alan Turing"
+2) "Hedy Lamarr"
+3) "Claude Shannon"
+4) "Alan Kay"
+5) "Anita Borg"
+
+> zremrangebyscore hackers 1940 1960
+(integer) 4
+
+> zrank hackers "Anita Borg"
+(integer) 4
+```
 
 
 
