@@ -264,8 +264,10 @@ hset user:1000 username leo birthyear 1986 verified 1
 
 Redis Sets are unordered collections of strings
 **cmd:** SADD, SMEMBERS, SISMEMBER
+
 - **SMEMBERS** returns all the elements
 - **SISMEMBER** checks if an element exists
+
 ```bash
 > sadd myset 1 2 3
 (integer) 3
@@ -279,6 +281,7 @@ Redis Sets are unordered collections of strings
 > sismember myset 30
 (integer) 0
 ```
+
 ```bash
 > sadd news:1000:tags 1 2 5 77
 (integer) 4
@@ -289,17 +292,23 @@ Redis Sets are unordered collections of strings
 3. 77
 4. 2
 ```
+
 **cmd:** SINTER
+
 - **SINTER** performs the intersection between different sets
+
 ```bash
 > sinter tag:1:news tag:2:news tag:10:news tag:27:news
 ... results here ...
 ```
+
 **cmd:** SPOP, SUNIONSTORE, SCARD, SRANDMEMBER
+
 - **SPOP** extracts a random element from a set
 - **SUNIONSTORE** performs the union between multiple sets, and stores the result into another set
 - **SCARD** provides the number of elements inside a set
 - **SRANDMEMBER** When you need to just get random elements without removing them from the set, there is the SRANDMEMBER command suitable for the task. It also features the ability to return both repeating and non-repeating elements.
+
 ```bash
 > sadd deck C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 CJ CQ CK
   D1 D2 D3 D4 D5 D6 D7 D8 D9 D10 DJ DQ DK H1 H2 H3
@@ -326,11 +335,14 @@ Redis Sets are unordered collections of strings
 ```
 
 ## Sorted sets
+
 Sorted sets are a data type which is similar to a mix between a Set and a Hash. <br>
 **cmd:** ZADD, ZRANGE, ZREVRANGE
+
 - **ZADD** is similar to SADD, but takes one additional argument which is the score
 - **ZRANGE** is like LRANGE
 - **ZREVRANGE** is the reverse of ZRANGE
+
 ```bash
 > zadd hackers 1940 "Alan Kay"
 (integer) 1
@@ -373,7 +385,9 @@ Sorted sets are a data type which is similar to a mix between a Set and a Hash. 
 8) "Yukihiro Matsumoto"
 9) "Linus Torvalds"
 ```
+
 It is possible to return scores as well, using the WITHSCORES argument:
+
 ```bash
 > zrange hackers 0 -1 withscores
 1) "Alan Turing"
@@ -397,10 +411,13 @@ It is possible to return scores as well, using the WITHSCORES argument:
 ```
 
 ## Operating on ranges
+
 **cmd:** ZRANGEBYSCORE, ZREMRANGEBYSCORE, ZRANK, ZREVRANK
+
 - **ZRANGEBYSCORE** returns all the elements with a score between two values
 - **ZREMRANGEBYSCORE** removes all the hackers born between two values
 - **ZRANK** gives the position of an element in the set of the ordered elements
+
 ```bash
 > zrangebyscore hackers -inf 1950
 1) "Alan Turing"
@@ -415,7 +432,3 @@ It is possible to return scores as well, using the WITHSCORES argument:
 > zrank hackers "Anita Borg"
 (integer) 4
 ```
-
-
-
-
